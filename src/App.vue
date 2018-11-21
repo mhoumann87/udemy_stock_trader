@@ -1,12 +1,14 @@
 <template>
-<div>
-  <app-header></app-header>
-<div class="container">
-  <router-view></router-view>
- 
-  <h1>The Stock Trader</h1>
-</div>
-</div>
+  <div>
+    <app-header></app-header>
+  <div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <router-view></router-view>
+    </div>
+  </div>
+  </div>
+  </div>
 </template>
 
 <script>
