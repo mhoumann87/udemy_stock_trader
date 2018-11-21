@@ -23,6 +23,9 @@ Built with:
 
 - Vue CLI 2
 - Vuex
+- Vue Router
+- Bootstrap 3
+- Bootswatch
 - HTML
 - CSS
 - EsLint
