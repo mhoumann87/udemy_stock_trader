@@ -1,13 +1,13 @@
 <template>
   <div>
     <app-header></app-header>
-  <div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <router-view></router-view>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <router-view></router-view>
+        </div>
+      </div>
     </div>
-  </div>
-  </div>
   </div>
 </template>
 
@@ -20,6 +20,9 @@ export default {
   },
   components: {
     appHeader: Header
+  },
+  created() {
+    this.$store.dispatch("initStocks");
   }
 };
 </script>

@@ -1,10 +1,10 @@
 <template>
   <div class="col-sm-6 col-md-4">
-    <div class="panel panel-primary">
+    <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title">
-          {{stock.name}}
-          <small>(price: {{stock.price}})</small>
+          {{ stock.name }}
+          <small>(Price: {{ stock.price }} | Quantity: {{ stock.quantity }}</small>
         </h3>
       </div>
       <div class="panel-body">
@@ -14,15 +14,15 @@
             class="form-control"
             placeholder="Quantity"
             v-model.number="quantity"
-            :class="{danger: insufficientFunds}"
+            :class="{danger: insufficientQuantity}"
           >
         </div>
         <div class="pull-right">
           <button
-            class="btn btn-info"
-            @click="buyStock"
-            :disabled="insufficientFunds || quantity <= 0 || !Number.isInteger(quantity)"
-          >{{insufficientFunds ? 'Missing Funds' : 'Buy'}}</button>
+            class="btn btn-danger"
+            @click="sellStock"
+            :disabled="insufficientQuantity || quantity <= 0 || !Number.isInteger(quantity)"
+          >{{ insufficientQuantity ? 'To Many': 'Sell Stocks'}}</button>
         </div>
       </div>
     </div>
@@ -30,29 +30,29 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
+  props: ["stock"],
   data() {
     return {
       quantity: 0
     };
   },
   computed: {
-    funds() {
-      return this.$store.getters.funds;
-    },
-    insufficientFunds() {
-      return this.quantity * this.stock.price > this.funds;
+    insufficientQuantity() {
+      return this.quantity > this.stock.quantity;
     }
   },
-  props: ["stock"],
   methods: {
-    buyStock() {
+    ...mapActions({ placeSellOrder: "sellStock" }),
+    sellStock() {
       const order = {
         stockId: this.stock.id,
         stockPrice: this.stock.price,
         quantity: this.quantity
       };
-      this.$store.dispatch("buyStocks", order);
+      this.placeSellOrder(order);
       this.quantity = 0;
     }
   }
@@ -65,3 +65,5 @@ export default {
   outline: none;
 }
 </style>
+
+
