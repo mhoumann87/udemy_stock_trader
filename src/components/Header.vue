@@ -31,26 +31,27 @@
             <i class="fas fa-clock"></i>&nbsp;End Day
           </a>
         </li>
-        <li class="dropdown">
+        <li class="dropdown" :class="{open: isDropdownOpen}">
           <a
             href="#"
             class="dropdown-toggle"
             data-toggle="dropdown"
             role="button"
             aria-expanded="false"
+            @click="isDropdownOpen = !isDropdownOpen"
           >
             Save / Load
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" role="menu">
             <li>
-              <a href="#">
+              <a href="#" @click="saveData">
                 <i class="fas fa-upload"></i>&nbsp;Save Data
               </a>
             </li>
             <li>
-              <a href="#">
-                <i class="fas fa-download"></i>Load Data
+              <a href="#" @click="loadData">
+                <i class="fas fa-download"></i>&nbsp;Load Data
               </a>
             </li>
           </ul>
@@ -64,15 +65,34 @@
 import { mapActions } from "vuex";
 
 export default {
+  data() {
+    return {
+      isDropdownOpen: false
+    };
+  },
   computed: {
     funds() {
       return this.$store.getters.funds;
     }
   },
   methods: {
-    ...mapActions(["randomizeStocks"]),
+    ...mapActions({
+      randomizeStocks: "randomizeStocks",
+      fetchData: "loadData"
+    }),
     endDay() {
       this.randomizeStocks();
+    },
+    saveData() {
+      const data = {
+        funds: this.$store.getters.funds,
+        stockPortfolio: this.$store.getters.stockPortfolio,
+        stocks: this.$store.getters.stocks
+      };
+      this.$http.put("data.json", data);
+    },
+    loadData() {
+      this.fetchData();
     }
   }
 };
