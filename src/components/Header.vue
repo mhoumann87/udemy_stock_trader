@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container">
       <div class="navbar-header">
         <router-link class="navbar-brand" to="/"><i class="fas fa-chart-line"></i>&nbsp;The Stock Trader</router-link>
       </div>
